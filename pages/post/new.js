@@ -1,9 +1,16 @@
-const New = () => {
+import AppLayout from "../../components/AppLayout";
+
+const NewPost = (props) => {
+  console.log("new post props", props);
   return (
     <div>
-      <p>new</p>
+      <h1>new post</h1>
     </div>
   );
 };
 
-export default New;
+NewPost.getLayout = function getLayout(page, pageProps) {
+  return <AppLayout {...pageProps}>{page}</AppLayout>;
+};
+
+export default NewPost;
