@@ -1,3 +1,5 @@
+import { withPageAuthRequired } from "@auth0/nextjs-auth0";
+
 const TokenTopup = () => {
   return (
     <div>
@@ -5,5 +7,11 @@ const TokenTopup = () => {
     </div>
   );
 };
+
+export const getServerSideProps = withPageAuthRequired(() => {
+  return {
+    props: {},
+  };
+});
 
 export default TokenTopup;
