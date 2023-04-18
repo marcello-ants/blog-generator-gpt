@@ -2,7 +2,6 @@ import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 import AppLayout from "../../components/AppLayout";
 
 const NewPost = (props) => {
-  console.log("new post props", props);
   return (
     <div>
       <h1>new post</h1>
