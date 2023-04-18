@@ -1,22 +1,21 @@
-import Link from "next/link";
-import { useUser } from "@auth0/nextjs-auth0/client";
 import Image from "next/image";
+import Link from "next/link";
+import HeroImage from "../public/hero.webp";
+import { Logo } from "../components";
 
 const Home = () => {
-  const { user } = useUser();
-
   return (
-    <div>
-      <div>
-        {!!user ? (
-          <div>
-            <Image width={50} height={50} alt={user.name} src={user.picture} />
-            <div>{user.email}</div>
-            <Link href="/api/auth/logout">Logout</Link>
-          </div>
-        ) : (
-          <Link href="/api/auth/login">Login</Link>
-        )}
+    <div className="relative w-screen h-screen flex justify-center items-center overflow-hidden">
+      <Image src={HeroImage} alt="Hero" fill className="absolute" />
+      <div className="relative max-w-screen-sm bg-slate-900/90 text-white text-center rounded-md px-10 py-5 z-10 backdrop-blur-sm">
+        <Logo />
+        <p>
+          The AI-powered SAAS solution to generate SEO-optimized blog posts in
+          minutes. Get high-quality content, without sacrificing your time.
+        </p>
+        <Link href="/post/new" className="btn mt-5">
+          Begin
+        </Link>
       </div>
     </div>
   );
