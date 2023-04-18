@@ -13,10 +13,7 @@ const AppLayout = ({ children }) => {
       <div className="flex flex-col text-white overflow-hidden">
         <div className="bg-slate-800 px-3">
           <Logo />
-          <Link
-            href="/post/new"
-            className="bg-green-500 w-full block text-center text-white folt-bold uppercase rounded-md px-4 py-2 cursor-pointer tracking-wider hover:bg-green-600 transition-colors"
-          >
+          <Link href="/post/new" className="btn">
             New post
           </Link>
           <Link href="/token-topup" className="block mt-3 text-center">
