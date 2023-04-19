@@ -9,23 +9,83 @@ const handler = async (req, res) => {
 
   const { topic, keywords } = req.body;
 
-  const response = await openai.createCompletion({
-    model: "text-davinci-003",
+  const prompt = `Write a long and detailed SEO-friendly blog post about ${topic}, that targets the following comma-separated keywords: ${keywords}.
+  The response should be formatted in SEO-friendly HTML, limited to the following HTML tags: h1, h2, h3, h4, h5, h6, p, i, strong, ol, ul, li.`;
+
+  const postContentResult = await openai.createChatCompletion({
+    model: "gpt-3.5-turbo",
+    messages: [
+      {
+        role: "system",
+        content: "You are a blog post generator.",
+      },
+      {
+        role: "user",
+        content: prompt,
+      },
+    ],
     temperature: 0,
-    max_tokens: 3600,
-    prompt: `Write a long and detailed SEO-friendly blog post about ${topic}, that targets the following comma-separated keywords: ${keywords}.
-    The content should be formatted in SEO-friendly HTML.
-    The response must also include appropriate HTML title and meta description content.
-    The return format must be stringfied JSON in the following format:
-    {
-      "postContent":  post content here
-      "title": title goes here
-      "metaDescription": meta description goes here
-    }`,
   });
 
+  const postContent = postContentResult.data.choices[0]?.message.content;
+
+  const titleResult = await openai.createChatCompletion({
+    model: "gpt-3.5-turbo",
+    messages: [
+      {
+        role: "system",
+        content: "You are a blog post generator.",
+      },
+      {
+        role: "user",
+        content: prompt,
+      },
+      {
+        role: "assistant",
+        content: postContent,
+      },
+      {
+        role: "user",
+        content: "Generate appropriate title tag text for the above blog post",
+      },
+    ],
+    temperature: 0,
+  });
+
+  const metaDescriptionResult = await openai.createChatCompletion({
+    model: "gpt-3.5-turbo",
+    messages: [
+      {
+        role: "system",
+        content: "You are a blog post generator.",
+      },
+      {
+        role: "user",
+        content: prompt,
+      },
+      {
+        role: "assistant",
+        content: postContent,
+      },
+      {
+        role: "user",
+        content:
+          "Generate SEO-friendly meta description content for the above blog post",
+      },
+    ],
+    temperature: 0,
+  });
+
+  const title = titleResult.data.choices[0]?.message.content;
+  const metaDescription =
+    metaDescriptionResult.data.choices[0]?.message.content;
+
   res.status(200).json({
-    post: JSON.parse(response.data.choices[0]?.text.split("\n").join("")),
+    post: {
+      title,
+      postContent,
+      metaDescription,
+    },
   });
 };
 
