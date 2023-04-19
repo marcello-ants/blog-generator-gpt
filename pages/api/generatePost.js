@@ -7,9 +7,7 @@ const handler = async (req, res) => {
 
   const openai = new OpenAIApi(config);
 
-  const topic = "Top 10 tips for dog owners";
-  const keywords =
-    "first-time dog owners, common dog health issues, best dog breeds";
+  const { topic, keywords } = req.body;
 
   const response = await openai.createCompletion({
     model: "text-davinci-003",
