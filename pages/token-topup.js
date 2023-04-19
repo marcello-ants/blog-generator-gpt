@@ -2,9 +2,18 @@ import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 import AppLayout from "../components/AppLayout";
 
 const TokenTopup = () => {
+  const handleClick = async () => {
+    await fetch(`/api/addTokens`, {
+      method: "POST",
+    });
+  };
+
   return (
     <div>
       <p>token topup</p>
+      <button className="btn" onClick={handleClick}>
+        add tokens
+      </button>
     </div>
   );
 };
