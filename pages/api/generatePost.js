@@ -118,11 +118,7 @@ const handler = async (req, res) => {
   });
 
   res.status(200).json({
-    post: {
-      title,
-      postContent,
-      metaDescription,
-    },
+    postId: post.insertedId,
   });
 };
 
