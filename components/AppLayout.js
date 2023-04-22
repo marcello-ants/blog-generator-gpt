@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCoins } from "@fortawesome/free-solid-svg-icons";
 import Logo from "./Logo";
 
-const AppLayout = ({ children }) => {
+const AppLayout = ({ children, availableTokens, posts, postId }) => {
   const { user } = useUser();
 
   return (
@@ -18,11 +18,23 @@ const AppLayout = ({ children }) => {
           </Link>
           <Link href="/token-topup" className="block mt-3 text-center">
             <FontAwesomeIcon icon={faCoins} className="text-yellow-500" />
-            <span className="pl-3">0 tokens available</span>
+            <span className="pl-3">{availableTokens} tokens available</span>
           </Link>
         </div>
-        <div className="bg-gradient-to-b from-slate-800 to-cyan-800 flex-1 overflow-auto">
-          list of posts
+        <div className="bg-gradient-to-b from-slate-800 to-cyan-800 flex-1 overflow-auto px-4">
+          {posts.map((post) => (
+            <Link
+              key={post._id}
+              href={`/post/${post._id}`}
+              className={`border block text-ellipsis whitespace-nowrap rounded-sm px-2 py-1 my-1 overflow-hidden cursor-pointer ${
+                postId === post._id
+                  ? "bg-white/20 border-white"
+                  : "bg-white/10 border-white/0"
+              }`}
+            >
+              {post.topic}
+            </Link>
+          ))}
         </div>
         <div className="bg-cyan-800 h-20 flex items-center gap-2 border-t border-t-black/50 px-3">
           {!!user ? (

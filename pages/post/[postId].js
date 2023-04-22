@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHashtag } from "@fortawesome/free-solid-svg-icons";
 import AppLayout from "../../components/AppLayout";
 import clientPromise from "../../lib/mongodb";
+import { getAppProps } from "../../utils/getAppProps";
 
 const Post = (props) => {
   return (
@@ -35,7 +36,8 @@ Post.getLayout = function getLayout(page, pageProps) {
 
 export const getServerSideProps = withPageAuthRequired({
   async getServerSideProps(context) {
-    // const props = await getAppProps(context);
+    const props = await getAppProps(context);
+
     const userSession = await getSession(context.req, context.res);
     const client = await clientPromise;
     const db = client.db("blogify-ai");
@@ -66,7 +68,7 @@ export const getServerSideProps = withPageAuthRequired({
         metaDescription: post.metaDescription,
         keywords: post.keywords,
         postCreated: post.created.toString(),
-        // ...props,
+        ...props,
       },
     };
   },
