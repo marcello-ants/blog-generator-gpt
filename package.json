@@ -1,6 +1,7 @@
 {
-  "name": "nextjs-openai-starter",
+  "name": "blogify-ai",
   "version": "0.1.0",
+  "author": "Marcello Antunes",
   "private": true,
   "scripts": {
     "dev": "next dev",
