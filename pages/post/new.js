@@ -54,6 +54,7 @@ const NewPost = (props) => {
               </label>
               <textarea
                 value={topic}
+                maxLength={80}
                 className="w-full block border border-slate-500 my-2 px-4 py-2 rounded-sm resize-none"
                 onChange={(e) => setTopic(e.target.value)}
               />
@@ -64,6 +65,7 @@ const NewPost = (props) => {
               </label>
               <textarea
                 value={keywords}
+                maxLength={80}
                 className="w-full block border border-slate-500 my-2 px-4 py-2 rounded-sm resize-none"
                 onChange={(e) => setKeywords(e.target.value)}
               />
@@ -71,7 +73,11 @@ const NewPost = (props) => {
                 Separate keywords with a comma
               </small>
             </div>
-            <button type="submit" className="btn">
+            <button
+              type="submit"
+              className="btn"
+              disabled={!topic.trim() || !keywords.trim()}
+            >
               generate
             </button>
           </form>
@@ -88,6 +94,16 @@ NewPost.getLayout = function getLayout(page, pageProps) {
 export const getServerSideProps = withPageAuthRequired({
   async getServerSideProps(context) {
     const props = await getAppProps(context);
+
+    if (!props.availableTokens) {
+      return {
+        redirect: {
+          destination: "/token-topup",
+          permanent: false,
+        },
+      };
+    }
+
     return {
       props,
     };
