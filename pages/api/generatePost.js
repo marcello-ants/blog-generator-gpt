@@ -25,6 +25,16 @@ const handler = async (req, res) => {
 
   const { topic, keywords } = req.body;
 
+  if (!topic || !keywords) {
+    res.status(422);
+    return;
+  }
+
+  if (topic.length > 80 || keywords.length > 80) {
+    res.status(422);
+    return;
+  }
+
   const prompt = `Write a long and detailed SEO-friendly blog post about ${topic}, that targets the following comma-separated keywords: ${keywords}.
   The response should be formatted in SEO-friendly HTML, limited to the following HTML tags: h1, h2, h3, h4, h5, h6, p, i, strong, ol, ul, li.`;
 
